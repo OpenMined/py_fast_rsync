@@ -6,30 +6,28 @@
 
 Here's how you can use the functions provided by ```py_fast_rsync```:
 
-### Example
+### Usage
 
 ```python
-import py_fast_rsync
+    import py_fast_rsync
+    from py_fast_rsync import signature
 
-# Calculate the diff between two data sets
-data = b"Hello, world!"
-new_data = b"Hello, Rust!"
-diff_result = py_fast_rsync.diff(data, new_data)
+    # 1. take data_a and return a "signature" of that data
+    # which is much smaller than the original data.
+    data_a = b"hello world"
+    sig = signature.calculate(data_a)
 
-# Apply the diff to the original data
-applied_result = py_fast_rsync.apply(data, diff_result)
-print(applied_result)  # Output should be b"Hello, Rust!"
+    # 2. take the signature for data_a and data_b
+    # and return a delta between data_a and data_b.
+    data_b = b"hello world!"
+    delta = py_fast_rsync.diff(sig, data_b)
+
+    # 3. apply the delta to data_a
+    # (usually) return data_b
+
+    probably_data_b = py_fast_rsync.apply(data_a, delta)
+    assert probably_data_b == data_b
 ```
-
-## Functions
-
-### ```diff(data: bytes, new_data: bytes) -> bytes```
-
-Calculates the difference between ```data``` and ```new_data``` and returns the result as ```bytes```.
-
-### ```apply(base: bytes, delta: bytes) -> bytes```
-
-Applies the ```delta``` to the ```base``` data and returns the updated data as ```bytes```.
 
 
 ## Building the Project
@@ -53,4 +51,3 @@ maturin develop
 ```
 
 This will compile the Rust code and install the resulting Python package in your current Python environment.
-

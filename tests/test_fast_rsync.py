@@ -1,10 +1,21 @@
 import py_fast_rsync
+from py_fast_rsync import signature
 
 
 def test_diff():
-    byte_data1 = b"hello world"
-    byte_data2 = b"hello world!"
-    diff = py_fast_rsync.diff(byte_data1, byte_data2)
+    # 1. take data_a and return a "signature" of that data
+    # which is much smaller than the original data.
+    data_a = b"hello world"
+    sig = signature.calculate(data_a)
 
-    new_data = py_fast_rsync.apply(byte_data1, diff)
-    assert new_data == byte_data2
+    # 2. take the signature for data_a and data_b
+    # and return a delta between data_a and data_b.
+    data_b = b"hello world!"
+    delta = py_fast_rsync.diff(sig, data_b)
+
+    # 3. apply the delta to data_a
+    # (usually) return data_b
+    # This function should not be used with untrusted input,
+
+    probably_data_b = py_fast_rsync.apply(data_a, delta)
+    assert probably_data_b == data_b
