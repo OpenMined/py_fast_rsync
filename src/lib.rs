@@ -45,16 +45,20 @@ fn py_fast_rsync(py: Python<'_>, m: &Bound<'_, PyModule>) -> PyResult<()> {
 // Signature module
 
 #[pyfunction]
-fn calculate(py: Python, data: &[u8]) -> PyResult<Py<PyBytes>> {
-    // Calculate the signature and store it in a variable
+#[pyo3(signature = (data, block_size=4096, crypto_hash_size=8))]
+fn calculate(
+    py: Python,
+    data: &[u8],
+    block_size: u32,
+    crypto_hash_size: u32,
+) -> PyResult<Py<PyBytes>> {
     let signature = Signature::calculate(
         data,
         SignatureOptions {
-            block_size: 4096, // Adjust this based on your data characteristics
-            crypto_hash_size: 8,
+            block_size,
+            crypto_hash_size,
         },
     );
 
-    // Convert Vec<u8> to PyBytes and return
     Ok(PyBytes::new_bound(py, &signature.into_serialized()).into())
 }
