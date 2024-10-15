@@ -2,11 +2,10 @@
 
 ```py_fast_rsync``` is a Python library implemented in Rust using the ```pyo3``` and ```fast_rsync``` crates. This library provides functions for calculating the difference between two data sets and applying those differences to create updated data sets, as well as a simple function to sum two numbers and return the result as a string.
 
-## Usage
+### Usage
 
 Here's how you can use the functions provided by ```py_fast_rsync```:
 
-### Usage
 
 ```python
     import py_fast_rsync
