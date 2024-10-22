@@ -10,4 +10,4 @@ crate-type = ["cdylib"]
 
 [dependencies]
 fast_rsync = "0.2.0"
-pyo3 = "0.22.0"
+pyo3 = "0.22.4"
