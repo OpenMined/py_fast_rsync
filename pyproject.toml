@@ -11,5 +11,9 @@ classifiers = [
     "Programming Language :: Python :: Implementation :: PyPy",
 ]
 dynamic = ["version"]
+include = ["py_fast_rsync/py.typed"]
 [tool.maturin]
 features = ["pyo3/extension-module"]
+
+[optional-dependencies]
+test = ["pytest", "faker"]

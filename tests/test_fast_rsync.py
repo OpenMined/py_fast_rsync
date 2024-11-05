@@ -1,5 +1,8 @@
 import py_fast_rsync
 from py_fast_rsync import signature
+from faker import Faker
+
+faker = Faker()
 
 
 def test_diff():
@@ -19,6 +22,22 @@ def test_diff():
 
     probably_data_b = py_fast_rsync.apply(data_a, delta)
     assert probably_data_b == data_b
+
+
+def test_diff_multi():
+    data_a = b"hello"
+    sig = signature.calculate(data_a)
+
+    data_b = b"hello from earth"
+    delta_b = py_fast_rsync.diff(sig, data_b)
+
+    data_c = b"goodbye from mars"
+    delta_c = py_fast_rsync.diff(sig, data_c)
+
+    probably_data_b = py_fast_rsync.apply(data_a, delta_b)
+    probably_data_c = py_fast_rsync.apply(probably_data_b, delta_c)
+    assert probably_data_b == data_b
+    assert probably_data_c == data_c
 
 
 def test_optional_params():
